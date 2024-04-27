@@ -1,0 +1,36 @@
+crearTokens.js:
+    Objetivo: Crear un access token y un refresh token para autenticación de sesiones.
+    Descripción: Esta función toma los datos del usuario y crea un access token y un refresh token utilizando JSON Web Tokens (JWT). Los tokens se firman con una clave secreta proporcionada en el entorno. Además, establece una cookie HTTP con el token de acceso.
+    Estructura: crearTokens(res, userData, accessExpiresIn = "1h", refreshExpiresIn = "30d")
+    Parámetros:
+        res:
+            Requerido: Sí
+            Tipo de dato: Objeto de respuesta HTTP
+            Descripción: El objeto de respuesta HTTP que se utiliza para establecer la cookie HTTP con el token de acceso.
+            Uso: Se utiliza para configurar la cookie con el token de acceso.
+        userData:
+            Requerido: Sí
+            Tipo de dato: Objeto
+            Descripción: Los datos del usuario que se utilizarán para firmar los tokens.
+            Uso: Se utiliza para generar los tokens basados en los datos del usuario.
+        accessExpiresIn:
+            Requerido: No
+            Tipo de dato: String
+            Descripción: La duración del token de acceso en formato de tiempo JWT (por ejemplo, "1h" para una hora).
+            Uso: Especifica la duración de validez del token de acceso.
+        refreshExpiresIn:
+            Requerido: No
+            Tipo de dato: String
+            Descripción: La duración del token de actualización en formato de tiempo JWT (por ejemplo, "30d" para 30 días).
+            Uso: Especifica la duración de validez del token de actualización.
+    Dependencias: jwt, crypto
+    Retorno erróneo: {
+        status: 500,
+        message: [mensaje de error]
+    }
+    Retorno exitoso: {
+        status: 200,
+        refreshToken: [refresh token generado]
+    }
+    Extra: en .env añadir una variable llamada SECRET_KEY que contenga una clave para firmar los JWT
+        cambiarla cada un tiempo 

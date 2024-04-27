@@ -1,0 +1,49 @@
+manejoConsultas.js:
+    Objetivo: Manejar consultas a una base de datos y realizar operaciones CRUD básicas.
+    Descripción: Este módulo proporciona funciones para ejecutar consultas SQL en una base de datos utilizando un pool de conexiones. Incluye funciones para obtener datos de una tabla, obtener datos filtrados, eliminar datos, añadir datos y modificar datos.
+    Funciones:
+        - obtenerDatos(pool, tabla): Obtiene todos los datos de una tabla.
+        - obtenerDato(pool, tabla, filtro, dato): Obtiene datos filtrados de una tabla según un filtro y un dato específico.
+        - eliminarDato(pool, tabla, filtro, dato): Elimina un dato de una tabla según un filtro y un dato específico.
+        - añadirDato(pool, tabla, columnas, datos): Añade un nuevo dato a una tabla especificando las columnas y los datos.
+        - modificarDato(pool, tabla, filtro, valorCondicion, columnas, datos): Modifica datos de una tabla según un filtro y un valor de condición, especificando las columnas y los nuevos datos.
+    Parámetros:
+        - pool:
+            Requerido: Sí
+            Tipo de dato: Objeto Pool de conexiones a la base de datos
+            Descripción: El pool de conexiones utilizado para ejecutar consultas en la base de datos.
+            Uso: Se utiliza para realizar consultas a la base de datos.
+        - tabla:
+            Requerido: Sí
+            Tipo de dato: String
+            Descripción: El nombre de la tabla en la base de datos sobre la cual se realizarán las operaciones.
+            Uso: Se utiliza para especificar la tabla en la que se realizarán las operaciones CRUD.
+        - filtro:
+            Requerido: Sí (en obtenerDato, eliminarDato, modificarDato)
+            Tipo de dato: String
+            Descripción: El nombre de la columna que se utilizará como filtro en la consulta SQL.
+            Uso: Se utiliza para filtrar los datos en las operaciones obtenerDato, eliminarDato y modificarDato.
+        - dato:
+            Requerido: Sí (en obtenerDato, eliminarDato, modificarDato)
+            Tipo de dato: String
+            Descripción: El valor que se utilizará como criterio de filtro en la consulta SQL.
+            Uso: Se utiliza para filtrar los datos en las operaciones obtenerDato, eliminarDato y modificarDato.
+        - columnas:
+            Requerido: Sí (en añadirDato, modificarDato)
+            Tipo de dato: Array de Strings
+            Descripción: Las columnas en las que se insertarán o modificarán los datos.
+            Uso: Se utilizan para especificar las columnas en las operaciones añadirDato y modificarDato.
+        - datos:
+            Requerido: Sí (en añadirDato, modificarDato)
+            Tipo de dato: Array de Strings
+            Descripción: Los valores de los datos que se insertarán o modificarán en la tabla.
+            Uso: Se utilizan para especificar los nuevos datos en las operaciones añadirDato y modificarDato.
+    Dependencias: bcrypt
+    Retorno erróneo: {
+        status: 500,
+        message: [mensaje de error]
+    }
+    Retorno exitoso: {
+        status: 200,
+        message: [mensaje de éxito]
+    }

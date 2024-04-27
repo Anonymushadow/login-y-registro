@@ -1,0 +1,24 @@
+logout.js:
+    Objetivo: Cerrar sesión de usuario y eliminar la cookie de acceso.
+    Descripción: Esta función se encarga de eliminar la cookie de acceso del usuario, lo que efectivamente cierra la sesión. Responde con un mensaje de éxito si la operación se realiza correctamente, y con un mensaje de error en caso contrario.
+    Estructura: logout(res, cookieToken="accessToken")
+    Parámetros:
+        res:
+        Requerido: Sí
+        Tipo de dato: Objeto de respuesta HTTP
+        Descripción: El objeto de respuesta HTTP que se utiliza para enviar la respuesta al cliente.
+    cookieToken:
+        Requerido: No
+        Tipo de dato: String
+        Valor por defecto: "accessToken"
+        Descripción: El nombre de la cookie de acceso que se eliminará. Por defecto, se eliminará la cookie llamada "accessToken".
+    Dependencias: -
+    Retorno exitoso: {
+            "status": 200,
+            "message": "Sesión cerrada exitosamente"
+        }
+    Retorno erróneo:
+        {
+            status: 500,
+            message: error
+        }

@@ -1,0 +1,43 @@
+registrarUsuario.js:
+    Objetivo: Registrar un nuevo usuario en la base de datos y generar un token de acceso
+    Descripción: Esta función se encarga de registrar un nuevo usuario en la base de datos, verificar si el usuario ya existe, encriptar su contraseña, generar un token de acceso y almacenarlo en la base de datos.
+    Estructura: registrarUsuario(req, res, pool, tabla, campoUsuario)
+    Parámetros:
+        req:
+            Requerido: Sí
+            Tipo de dato: Objeto de petición HTTP
+            Descripción: Objeto de solicitud HTTP que contiene los datos del usuario a registrar.
+            Uso: Se utiliza para obtener los datos del nuevo usuario.
+        res:
+            Requerido: Sí
+            Tipo de dato: Objeto de respuesta HTTP
+            Descripción: Objeto de respuesta HTTP que permite enviar la respuesta al cliente.
+            Uso: Se utiliza para almacenar el token de acceso en las cookies del cliente.
+        pool:
+            Requerido: Sí
+            Tipo de dato: Pool de conexión a la base de datos
+            Descripción: Pool de conexión a la base de datos MySQL.
+            Uso: Se utiliza para realizar consultas y operaciones en la base de datos.
+        tabla:
+            Requerido: Sí
+            Tipo de dato: String
+            Descripción: Nombre de la tabla en la base de datos donde se almacenarán los datos del usuario.
+            Uso: Se utiliza para especificar la tabla donde se realizarán las operaciones.
+        campoUsuario:
+            Requerido: Sí
+            Tipo de dato: String
+            Descripción: Nombre del campo que identifica al usuario (por ejemplo, "email" o "username").
+            Uso: Se utiliza para realizar la búsqueda y comprobación de la existencia del usuario en la base de datos.
+    Dependencias:
+        - EWCMysql: Módulo para realizar operaciones en la base de datos MySQL.
+        - EWCEncriptar: Módulo para encriptar la contraseña del usuario.
+        - EWCAccessToken: Módulo para generar el token de acceso para el usuario.
+    Retorno exitoso:
+        {
+            status: 200
+        }
+    Retorno erróneo:
+        {
+            status: 500,
+            message: error
+        }

@@ -1,0 +1,18 @@
+<div class="navbar__container">
+    <div class="navbar__content">
+        <button class="navbar__inicio__button navbar__button">Inicio</button>
+        <% if(rol == "teacher" || rol == "admin"){ %>
+            <button class="navbar__profesor__button navbar__button">Crear clases</button>
+        <% } %>
+        <% if(rol == "admin"){ %>
+            <button class="navbar__admin__button navbar__button">Administrar página</button>
+        <% } %>
+        <% if(rol){ %>    
+            <button class="navbar__perfil__button navbar__button">Perfil</button>
+            <button class="navbar__logout__button navbar__button">Logout</button>
+        <% }else{ %>
+            <button class="navbar__login__button navbar__button">Iniciar Sesión</button>
+            <button class="navbar__register__button navbar__button">Registrarse</button>
+        <% } %>
+    </div>
+</div>

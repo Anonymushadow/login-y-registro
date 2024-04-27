@@ -1,0 +1,19 @@
+encriptarUsuario.js:
+    Objetivo: Encriptar la contraseña del usuario y preparar los datos de usuario.
+    Descripción: Esta función toma los datos del usuario, genera un salt único y utiliza bcrypt para hashear la contraseña del usuario. Luego, devuelve un nuevo objeto de datos de usuario con la contraseña hasheada.
+    Estructura: encriptarUsuario(userData)
+    Parámetros:
+        userData:
+            Requerido: Sí
+            Tipo de dato: Objeto
+            Descripción: Los datos del usuario que incluyen la contraseña sin hashear.
+            Uso: Se utiliza para generar el hash de la contraseña y actualizar los datos del usuario con la contraseña hasheada.
+    Dependencias: bcrypt
+    Retorno erróneo: {
+        status: 500,
+        message: [mensaje de error]
+    }
+    Retorno exitoso: {
+        status: 200,
+        content: [datos del usuario con la contraseña encriptada]
+    }

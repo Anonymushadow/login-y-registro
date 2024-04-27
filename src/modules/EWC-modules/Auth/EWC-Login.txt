@@ -1,0 +1,43 @@
+iniciarSesion.js:
+    Objetivo: Manejar el inicio de sesión de usuarios en un sistema utilizando credenciales de correo electrónico y contraseña.
+    Descripción: Esta función toma los datos de inicio de sesión proporcionados por el usuario, verifica la existencia del usuario en la base de datos, compara la contraseña ingresada con la almacenada en la base de datos, crea un token de acceso y almacena un token de actualización en la base de datos.
+    Estructura: iniciarSesion(req, res, pool, tabla, campoMail, campoContraseña)
+    Parámetros:
+        req:
+            Requerido: Sí
+            Tipo de dato: Objeto Request de HTTP
+            Descripción: El objeto de solicitud HTTP que contiene los datos de inicio de sesión proporcionados por el usuario.
+            Uso: Se utiliza para extraer los datos de correo electrónico y contraseña del usuario.
+        res:
+            Requerido: Sí
+            Tipo de dato: Objeto Response de HTTP
+            Descripción: El objeto de respuesta HTTP que se utiliza para almacenar el token de acceso en las cookies del navegador.
+            Uso: Se utiliza para configurar la cookie HTTP con el token de acceso.
+        pool:
+            Requerido: Sí
+            Tipo de dato: Objeto Pool de conexiones a la base de datos
+            Descripción: El pool de conexiones utilizado para ejecutar consultas en la base de datos.
+            Uso: Se utiliza para realizar consultas a la base de datos.
+        tabla:
+            Requerido: Sí
+            Tipo de dato: String
+            Descripción: El nombre de la tabla en la base de datos donde se almacenarán los datos de usuario.
+            Uso: Se utiliza para especificar la tabla en la que se buscarán los datos del usuario.
+        campoMail:
+            Requerido: Sí
+            Tipo de dato: String
+            Descripción: El nombre de la columna que contiene la dirección de correo electrónico en la tabla de la base de datos.
+            Uso: Se utiliza para especificar la columna que se utilizará como filtro para buscar al usuario.
+        campoContraseña:
+            Requerido: Sí
+            Tipo de dato: String
+            Descripción: El nombre de la columna que contiene la contraseña hasheada en la tabla de la base de datos.
+            Uso: Se utiliza para especificar la columna que se utilizará para comparar la contraseña ingresada con la almacenada en la base de datos.
+    Dependencias: jwt, bcrypt, EWC-AccessToken, EWC-Mysql
+    Retorno erróneo: {
+        status: 500,
+        message: [mensaje de error]
+    }
+    Retorno exitoso: {
+        status: 200
+    }

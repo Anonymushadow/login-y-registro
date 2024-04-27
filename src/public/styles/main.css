@@ -1,0 +1,41 @@
+* {
+    margin: 0;
+    padding: 0;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.content__container {
+    width: 100%;
+    min-height: calc(100dvh - 100px);
+    background-color: #7fffd4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Estilo para el scrollbar */
+::-webkit-scrollbar {
+    width: 5px; 
+  }
+  
+  /* Estilo para el fondo del scrollbar */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  /* Estilo para el thumb (barra deslizadora) del scrollbar */
+  ::-webkit-scrollbar-thumb {
+    border-radius: 50px;
+    background: #000;
+  }
+  
+  /* Estilo cuando el thumb está siendo arrastrado */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+  

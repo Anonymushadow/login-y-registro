@@ -1,0 +1,18 @@
+EWC-ThrowErrors.js:
+    Objetivo: verificar condiciones y tirar errores en caso de ser necesario
+    Descripcion: obtiene una condicion y un mensjae, si la condicion no se cumple entonces se emite el mensaje como error 
+    Estructura: throwError(verificacion, mensaje)
+    Parametros:
+        verificacion:
+            Requerido: si
+            Tipo de dato: Booleano
+            Descripcion: es la condicion a verificar 
+            Uso: se verificara mediante un if 
+        mensaje:
+            Requerido: si
+            Tipo de dato: String
+            Descripcion: es el mensaje de error que se emitira si la condicion no es verdadera 
+            Uso: se retornara mediante un throw new Error
+    Dependencias: -
+    Retorno exitoso: -
+    Retorno erroneo: -

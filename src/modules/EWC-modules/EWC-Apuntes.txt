@@ -1,0 +1,370 @@
+--------------------------------------------------------------------------------------------
+Auth
+--------------------------------------------------------------------------------------------
+EWC-AccessToken.js:
+    Objetivo: crear un acces token para que se verifique la sesion iniciada
+    Descripcion: recibe los datos del usuario y crea un token de acceso el cual se añade a las cookies 
+    Estructura: crearTokens(res, userData, accessExpiresIn = "1h", refreshExpiresIn = "30d")
+    Parametros:
+        res:
+            Requerido: si
+            Tipo de dato: Objeto de peticion HTTP 
+            Descripcion: es el objeto que crea el servidor al ejecutar una peticion para poder responder
+            Uso: se utilizara para poder almacenar el acces token en las cookies 
+        userData:
+            Requerido: si
+            Tipo de dato: Objeto 
+            Descripcion: son los datos del usuario que tomaremos como datos de sesion 
+            Uso: los utilziaremos para crear el accesToken y alamcenarlos de tal manera que se sepa la informacion de la sesion actual
+        accessExpiresIn:
+            Requerido: no
+            Tipo de dato: String 
+            Descripcion: es el tiempo de duracion del token 
+            Uso: se utilizara para darle un tiempo de vida al token y evitar que sea "hackeable"
+    Dependencias: -
+    Retorno erroneo:{
+        status: 500,
+        message: error
+      }
+    Retorno exitoso:{
+        status: 200,
+        refreshToken: refreshToken
+    }
+EWC-Encriptar.js:
+    Objetivo: encriptar una clave 
+    Descripcion: toma los datos de un usuario y encripta la contraseña 
+    Estructura: encriptarUsuario(userData)
+    Parametros:
+        userData:
+            Requerido: si
+            Tipo de dato: Objeto 
+            Descripcion: es un objeto con la informacion del usuario 
+            Uso: se creara un nuevo objeto con los mismos datos pero con la contraseña encriptada
+    Dependencias: -
+    Retorno erroneo:{
+        status: 500,
+        message: error
+      }
+    Retorno exitoso:{
+        status: 200,
+        content: datosEncriptados
+      }
+EWC-Login.js:
+    Objetivo: iniciar sesion en la pagina 
+    Descripcion: toma los datos del login y verifica si existe el usuario, si existe y la contraseña es correcta inicia sesion
+    Estructura: iniciarSesion(req, res, pool, tabla, campoMail, campoContraseña)
+    Parametros:
+        req:
+            Requerido: si
+            Tipo de dato: Objeto de peticion HTTP
+            Descripcion: es el objeto que se crea al realizar una peticion http al servidor 
+            Uso: se utilizara para obtener las credenciales del body de la peticion 
+        res:
+            Requerido: si
+            Tipo de dato: Objeto de peticion HTTP
+            Descripcion: es el objeto que crea el servidor al recibir una peticion http 
+            Uso: se utilizara para enviarlo como parametro al modulo que crea el acces token 
+        pool:
+            Requerido:si 
+            Tipo de dato: Objeto de conexion
+            Descripcion: es la conexion en si 
+            Uso: se utilizara para realizar las consultas a mysql
+        tabla:
+            Requerido: si
+            Tipo de dato: String
+            Descripcion: es el nombre de la tabla donde se almacenan los usuarios
+            Uso: se utilizara para verificar si el usuario existe y si la clave es correcta 
+        campoMail:
+            Requerido: si
+            Tipo de dato: String 
+            Descripcion: es el nombre de la columna donde se almacenan los usuarios 
+            Uso: se utilizara para verificar si el usuario existe 
+        campoContraseña:
+            Requerido: si
+            Tipo de dato: String
+            Descripcion: es el nombre de la columna donde se almacenan las contraseñas
+            Uso: se utilizara para verificar si la clave es correcta 
+    Dependencias: EWC-AccessToken.js, EWC-Mysql.js
+    Retorno erroneo:{
+        status: 500,
+        message: error
+      }
+    Retorno exitoso:{
+        status: 200
+    }
+EWC-Registro.js:
+    Objetivo: registrar un usuario nuevo 
+    Descripcion: se verifica si el usuario ingrersado existe, en caso de no existir se crea el usuario 
+    Estructura: registrarUsuario(req, res, pool, tabla, campoUsuario)
+    Parametros:
+        req:
+            Requerido: si
+            Tipo de dato: Objeto de peticion HTTP
+            Descripcion: es el objeto que se crea al realizar una peticion http 
+            Uso: se utilizara para obtener la informacion de los usuarios a partir de la peticion 
+        res:
+            Requerido: si 
+            Tipo de dato: Objeto de peticion HTTP
+            Descripcion: es el objeto que crea el servidor al realizar una peticion http
+            Uso: se utilizara para enviarselo como parametro al modulo encargado de crear el acces token 
+        pool:
+            Requerido: si 
+            Tipo de dato: Objeto de conexion 
+            Descripcion: es la conexion en si 
+            Uso: se utilizara para realizar peticiones a la base de datos 
+        tabla:
+            Requerido: si 
+            Tipo de dato: String 
+            Descripcion: es el nombre de la tabla donde se almacenaran los usuarios 
+            Uso: se utilizara para verificar si existe un usuario y almacenarlo de ser necesario
+        campoUsuario:
+            Requerido: si 
+            Tipo de dato: String 
+            Descripcion: es el nombre de la columna que tiene el nombre de los usuarios 
+            Uso: se utilizara para verificar si el usuario existe
+    Dependencias: EWC-Mysql.js, EWC-AccessToken.js, EWC-Encriptar.js
+    Retorno erroneo:{
+        status: 500,
+        message: "error message"
+      }
+    Retorno exitoso:{
+        status: 200
+      }
+EWC-Logout.js:
+    Objetivo: cerrar la sesion actual 
+    Descripcion: cierra la sesiona actual eliminando el access token de las cookies 
+    Estructura: logout(res, cookieToken="accessToken")
+    Parametros:
+        res:
+            Requerido: si
+            Tipo de dato: Objeto de peticion HTTP 
+            Descripcion: es el objeto que crea el server al recibir una peticion http 
+            Uso: se utilizara para eliminar la cookie de sesion y para devolver los datos 
+        cookieToken:
+            Requerido: no 
+            Tipo de dato: Access Token 
+            Descripcion: es el token de acceso a eliminar 
+            Uso: se utilizara para buscar ese token de acceso en las cookies y eliminarlo 
+    Dependencias: -
+    Retorno erroneo: {
+        status: 500,
+        message: "mensaje de error"
+    }
+    Retorno exitoso: {
+        status: 200,
+        message: "mensaje de exito"
+    }
+
+--------------------------------------------------------------------------------------------
+Database
+--------------------------------------------------------------------------------------------
+EWC-Mysql.js:
+    Funciones: 
+        ejecutarConsulta
+            Objetivo: ejecutar una consulta SQL
+            Descripcion: ejecuta una consulta al abase de datos 
+            Estructura: ejecutarConsulta(pool, consulta)
+            Parametros:
+                pool:
+                    Requerido: si 
+                    Tipo de dato: Objeto de conexion 
+                    Descripcion: es la conexion en si 
+                    Uso: se utilizara para realizar la consulta mediante esos datos de conexion
+                consulta:
+                    Requerido: si 
+                    Tipo de dato: String 
+                    Descripcion: es la consulta a realizar 
+                    Uso: sera la consulta que se realizara 
+            Dependencias: -
+            Retorno erroneo: {
+                status: 500,
+                message: "mensaje de error"
+            }
+            Retorno exitoso: {
+                status: 200,
+                message: respuesta de la base de datos 
+            }
+        obtenerDatos
+            Objetivo: obtener todos los datos de una tabla SQL 
+            Descripcion: obtiene todos los datos de una tabla
+            Estructura: obtenerDatos(pool, tabla)
+            Parametros:
+                pool:
+                    Requerido: si
+                    Tipo de dato: Objeto de conexion
+                    Descripcion: es la conexion en si 
+                    Uso: se utilizara para realizar peticiones a la base de datos 
+                tabla:
+                    Requerido: si 
+                    Tipo de dato: String 
+                    Descripcion: es el nombre de la tabla donde se realizara la consulta 
+                    Uso: se utilizara esta tabla para obtener toda su informacion 
+            Dependencias: ejecutarConsulta()
+            Retorno erroneo: {
+                status: 500,
+                message: "mensaje de error"
+            }
+            Retorno exitoso: {
+                status: 200,
+                message: respuesta de la consulta 
+            }
+        obtenerDato
+            Objetivo: obtener un dato de una tabla 
+            Descripcion: obtiene los datos de una tabla que cumplan con la condicion
+            Estructura: obtenerDato(pool, tabla, filtro, dato)
+            Parametros:
+                pool:
+                    Requerido: si
+                    Tipo de dato: Objeto de conexion 
+                    Descripcion: es la conexion en sin 
+                    Uso: se utilizara para realizar las peticiones a la base de datos 
+                tabla:
+                    Requerido: si 
+                    Tipo de dato: String 
+                    Descripcion: es el nombre de la tabla donde se buscaran los datos 
+                    Uso: se utilizara este nombre para buscar alli los datos 
+                filtro:
+                    Requerido: si 
+                    Tipo de dato: String 
+                    Descripcion: es el filtro que se utilizara para verificar la informacion y obtener los datos 
+                    Uso: este dato sera comparado con otro para saber donde esta la data que buscamos
+                dato:
+                    Requerido: si 
+                    Tipo de dato: String 
+                    Descripcion: es el dato que se verificara junto al filtro 
+                    Uso: sera comparado con el filtro para saber si ese es el dato que buscamos 
+            Dependencias: ejecutarConsulta()
+            Retorno erroneo: {
+                status: 500,
+                message: "mensaje de error"
+            }
+            Retorno exitoso: {
+                status: 200,
+                message: respuesta de la consulta 
+            }
+        eliminarDato
+            Objetivo: eliminar un dato de la base de datos 
+            Descripcion: verifica el dato que desea eliminar y si existe lo elimina 
+            Estructura: eliminarDato(pool, tabla, filtro, dato)
+            Parametros:
+                pool:
+                    Requerido: si 
+                    Tipo de dato: Objeto de conexion 
+                    Descripcion: es la conexion en si 
+                    Uso: se utilizara para realizar peticiones a la base de datos 
+                tabla:
+                    Requerido: si 
+                    Tipo de dato: String 
+                    Descripcion: es el nombre de la tabla donde se eliminara el dato
+                    Uso: se utilizara el nombre para buscar de donde se eliminara 
+                filtro:
+                    Requerido: si 
+                    Tipo de dato: String 
+                    Descripcion: es el dato que se verificara para saber que elemento eliminar 
+                    Uso: se utilizara para buscar cual elemento eliminar 
+                dato:
+                    Requerido: si 
+                    Tipo de dato: String 
+                    Descripcion: es la condicion que debe igualarse al filtro para saber que es es el elemento a eliminar 
+                    Uso: se utilizara para compararlo conel filtro y saber cual elemento hay que eliminar 
+            Dependencias: ejecutarConsulta()
+            Retorno erroneo: {
+                status: 500,
+                message: "mensaje de error"
+            }
+            Retorno exitoso: {
+                status: 200,
+                message: respuesta de la consulta 
+            }
+        añadirDato
+            Objetivo: añadir un dato a la base de datos 
+            Descripcion: recibe datos los cuales seran almacenados en la base de datos 
+            Estructura: añadirDato(pool, tabla, columnas, datos)
+            Parametros:
+                pool:
+                    Requerido: si 
+                    Tipo de dato: Objeto de conexion 
+                    Descripcion: es la conexion en si 
+                    Uso: se utilizara para realizar peticiones a la base de datos 
+                tabla:
+                    Requerido: si 
+                    Tipo de dato: String
+                    Descripcion: es el nombre de la tabla donde se añadiran los datos 
+                    Uso: se utilizara para saber a donde añadir los datos 
+                columnas:
+                    Requerido: si 
+                    Tipo de dato: Array de Strings
+                    Descripcion: es el nombre de cada columna donde se añadiran datos 
+                    Uso: se utilizara para añadir todos los datos deseados de una 
+                datos:
+                    Requerido: si 
+                    Tipo de dato: Array de Strings 
+                    Descripcion: son todos los datos a añadir 
+                    Uso: se utilizara para saber que datos añadir 
+            Dependencias: ejecutarConsulta()
+            Retorno erroneo: {
+                status: 500,
+                message: "mensaje de error"
+            }
+            Retorno exitoso: {
+                status: 200,
+                message: respuesta de la consulta 
+            }
+        modificarDato
+            Objetivo: modificar un dato de la base de datos 
+            Descripcion: verifica si existe el dato a modificar y lo modifica 
+            Estructura: modificarDato(pool, tabla, filtro, valorCondicion, columnas, datos)
+            Parametros:
+                pool:
+                    Requerido: si 
+                    Tipo de dato: Objeto de conexion 
+                    Descripcion: es la conexion en si 
+                    Uso: se utilizara para realizar la peticion a la base de datos 
+                tabla:
+                    Requerido: si 
+                    Tipo de dato: String 
+                    Descripcion: es el nombre de la tabal donde se ejecutara la peticion 
+                    Uso: sw utilizara para verificar si existe la tabla y en cual se modificara el dato 
+                filtro:
+                    Requerido: si 
+                    Tipo de dato: String 
+                    Descripcion: es la parte que se verificara para saber que elemento modificar 
+                    Uso: sera comparado con el valorCondicion y si coincide se modificara ese dato 
+                valorCondicion:
+                    Requerido: si 
+                    Tipo de dato: String 
+                    Descripcion: es lo que debe igualarse a filtro para que se modifique el dato 
+                    Uso: se comparara con filtro y si son iguales se modificara ese campo 
+                columnas:
+                    Requerido: si 
+                    Tipo de dato: Array de strings 
+                    Descripcion: es el nombre de las columnas a modificar 
+                    Uso: se utilizaran para saber donde modificar 
+                datos:
+                    Requerido: si 
+                    Tipo de dato: Array 
+                    Descripcion: son los datos a modificar  
+                    Uso: se utilziaran para saber que modificar 
+            Dependencias: ejecutarConsulta()
+            Retorno erroneo: {
+                status: 500,
+                message: "mensaje de error"
+            }
+            Retorno exitoso: {
+                status: 200,
+                message: respuesta de la consulta 
+            }
+    Objetivo: realizar consultas a la base de datos de manera facil 
+    Descripcion: cada funcion tiene solicitudes SQL predeterminadas 
+    Dependencias: -
+    Retorno erroneo: {
+        status: 500,
+        message: "mensaje de error"
+    }
+    Retorno exitoso: {
+        status: 200,
+        message: respuesta de la consulta 
+    }
+
+
+
